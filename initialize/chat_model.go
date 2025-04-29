@@ -9,11 +9,6 @@ import (
 )
 
 func InitChatModel() {
-	// if global.ServerConfig.LLMConfig.BASE_URL == "" {
-	// 	zap.S().Errorw("[InitChatModel]", "err", "BASE_URL is empty")
-	// 	return
-	// }
-
 	chatModel, err := ollama.NewChatModel(context.Background(), &ollama.ChatModelConfig{
 		BaseURL: global.ServerConfig.LLMConfig.BASE_URL, // Ollama 服务地址
 		Model:   global.ServerConfig.LLMConfig.MODEL,    // 模型名称
