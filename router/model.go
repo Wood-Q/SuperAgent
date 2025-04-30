@@ -11,5 +11,6 @@ func InitRouter(rg *server.Hertz) {
 	modelGroup := apiGroup.Group("/chat")
 	{
 		modelGroup.POST("/send", api.SendChat)
+		modelGroup.POST("/health", api.DoChatWithSchemaJSON)
 	}
 }

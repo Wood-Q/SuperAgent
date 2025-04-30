@@ -1,4 +1,4 @@
-package model
+package message_model
 
 import "github.com/cloudwego/eino/schema"
 
