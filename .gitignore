@@ -1,0 +1,5 @@
+.config.yaml
+.AI.session.sql
+.idea
+.vscode
+.DS_Store
