@@ -2,7 +2,6 @@ package initialize
 
 import (
 	"SuperAgent/global"
-	"SuperAgent/tools"
 	"context"
 
 	"github.com/cloudwego/eino-ext/components/model/ollama"
@@ -18,9 +17,5 @@ func InitChatModel() {
 		zap.S().Errorw("[InitChatModel]", "err", err.Error())
 		return
 	}
-
-	// 绑定工具
-	chatModel.BindTools(tools.BodyReportTool())
-
 	global.ChatModel = chatModel
 }

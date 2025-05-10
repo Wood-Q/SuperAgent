@@ -8,11 +8,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func InitConfig() {
+func InitConfig(path string) {
 	v := viper.New()
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")
-	v.AddConfigPath(".")
+	v.AddConfigPath(path)
 	err := v.ReadInConfig()
 	if err != nil {
 		panic(err)
