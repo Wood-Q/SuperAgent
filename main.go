@@ -11,9 +11,12 @@ import (
 
 func main() {
 	initialize.InitLogger()
-	initialize.InitConfig()
+	initialize.InitConfig(".")
+	initialize.InitClient()
+	initialize.InitEmbedder()
+	initialize.InitIndexer()
+	initialize.InitRetriever()
 	initialize.InitChatModel()
-
 	iddr := fmt.Sprintf("%s:%s", global.ServerConfig.HOST, global.ServerConfig.PORT)
 	h := server.Default(server.WithHostPorts(iddr))
 	router.InitRouter(h)
