@@ -9,11 +9,10 @@ import (
 )
 
 func Split(ctx context.Context, docs []*schema.Document) ([]*schema.Document, error) {
-
 	// 初始化分割器
 	splitter, err := recursive.NewSplitter(ctx, &recursive.Config{
-		ChunkSize:   200,
-		OverlapSize: 40,
+		ChunkSize:   500,
+		OverlapSize: 100,
 		Separators:  []string{"\n", "。", "！", "？"},
 		KeepType:    recursive.KeepTypeEnd,
 	})

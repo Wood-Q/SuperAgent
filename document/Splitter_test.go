@@ -26,7 +26,7 @@ func TestSplit(t *testing.T) {
 	ctx := context.Background()
 	docs := []*schema.Document{
 		{
-			ID:      fmt.Sprintf("test-%d", time.Now().Unix()),
+			ID:      fmt.Sprintf("muelsyse-%d", time.Now().Unix()),
 			Content: string(content),
 			MetaData: map[string]any{
 				"source": "test.txt",
@@ -42,7 +42,7 @@ func TestSplit(t *testing.T) {
 	assert.NoError(t, err, "分割文档失败")
 	assert.NotEmpty(t, chunks, "分割后的文档片段不应为空")
 	for _, chunk := range chunks {
-		fmt.Println("分割的文档id为", chunk.ID, "内容为", chunk.Content)
+		fmt.Println("分割的文档id为", chunk.ID, "\n内容为", chunk.Content)
 	}
 }
 

@@ -8,7 +8,7 @@ require (
 	github.com/cloudwego/eino-ext/components/document/transformer/splitter/recursive v0.0.0-20250512035704-1e06fdfda207
 	github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250507115047-b20720df8528
 	github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250507115047-b20720df8528
-	github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250424061409-ccd60fbc7c1c
+	github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250507115047-b20720df8528
 	github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250507115047-b20720df8528
 	github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250507115047-b20720df8528
 	github.com/cloudwego/hertz v0.9.7

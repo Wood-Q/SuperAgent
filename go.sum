@@ -56,8 +56,8 @@ github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250507115047-b20
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250507115047-b20720df8528/go.mod h1:pLtH5BZKgb7/bB8+P3W5/f1d46gTl9K77+08j88Gb4k=
 github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250507115047-b20720df8528 h1:0Ygw3a76SAE2KHoGNcQvc6yFmL/Z5uawCuV6hCr1fHo=
 github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250507115047-b20720df8528/go.mod h1:iJmH1FFphZIXm+5+HcTDGSKVS2zo0havI6AEDz6R2eo=
-github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250424061409-ccd60fbc7c1c h1:d0L5fZNbhFuZ3RuMsnTHH99XwUP+obH+tWazppJWk2g=
-github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250424061409-ccd60fbc7c1c/go.mod h1:giNUFqA+V7xrm/EDvH7JFnDqoWI+e2m1SVAnReU+Fd8=
+github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250507115047-b20720df8528 h1:w1NKOqWWqTU7B+EUpbbqLRjZ2IAcz+rEMgvGNzT6N+k=
+github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250507115047-b20720df8528/go.mod h1:giNUFqA+V7xrm/EDvH7JFnDqoWI+e2m1SVAnReU+Fd8=
 github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250507115047-b20720df8528 h1:Z+D55L6T/3uGPwJflJPbGOuczAlgrim4Sy+puzSLnFs=
 github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250507115047-b20720df8528/go.mod h1:spjJgmHa5UZzSzyLQyUzyv1s6IrX3TZ7OhdZuQx6SoE=
 github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250507115047-b20720df8528 h1:ZthmFWs5XZtTFQELlVUWi3F/LKGc9fGq1i0n7FJfWlo=
