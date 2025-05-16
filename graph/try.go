@@ -33,6 +33,27 @@ import (
 	"github.com/cloudwego/eino/schema"
 )
 
+// 添加参数管理结构
+type ChatParams struct {
+	Input   string            `json:"input"`
+	Role    string            `json:"role"`
+	Context map[string]string `json:"context"`
+}
+
+
+// 添加上下文管理
+type ChatContext struct {
+	History []*schema.Message
+	Params  map[string]any
+	State   *myState
+}
+
+func (cc *ChatContext) UpdateParams(newParams map[string]any) {
+	for k, v := range newParams {
+		cc.Params[k] = v
+	}
+}
+
 func try() {
 	compose.RegisterSerializableType[myState]("state")
 
@@ -49,40 +70,70 @@ func try() {
 	}
 
 	var history []*schema.Message
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("开始对话（输入'exit'退出）:")
 
 	for {
-		result, err := runner.Invoke(ctx, map[string]any{"name": "Megumin", "location": "Beijing"}, compose.WithCheckPointID("1"), compose.WithStateModifier(func(ctx context.Context, path compose.NodePath, state any) error {
-			state.(*myState).history = history
-			return nil
-		}))
-		if err == nil {
-			fmt.Printf("final result: %s", result.Content)
+		// 获取用户输入
+		fmt.Print("\n您: ")
+		input, err := reader.ReadString('\n')
+		if err != nil {
+			log.Printf("读取输入错误: %v", err)
+			continue
+		}
+
+		// 处理输入
+		input = strings.TrimSpace(input)
+		if strings.ToLower(input) == "exit" {
+			fmt.Println("再见！")
 			break
 		}
 
+		// 构建参数映射
+		params := map[string]any{
+			"input": input,
+			"role":  "AI助手", // 可以根据需要设置角色
+		}
+
+		// 调用模型
+		result, err := runner.Invoke(ctx, params,
+			compose.WithCheckPointID("chat-"+fmt.Sprint(len(history))),
+			compose.WithStateModifier(func(ctx context.Context, path compose.NodePath, state any) error {
+				state.(*myState).history = history
+				return nil
+			}),
+		)
+
+		if err == nil {
+			// 输出模型响应
+			fmt.Printf("\nAI: %s\n", result.Content)
+			history = append(history, result)
+			continue
+		}
+
+		// 处理工具调用
 		info, ok := compose.ExtractInterruptInfo(err)
 		if !ok {
-			log.Fatal(err)
+			log.Printf("错误: %v", err)
+			continue
 		}
 
 		history = info.State.(*myState).history
 		for i, tc := range history[len(history)-1].ToolCalls {
-			fmt.Printf("will call tool: %s, arguments: %s\n", tc.Function.Name, tc.Function.Arguments)
-			fmt.Print("Are the arguments as expected? (y/n): ")
+			fmt.Printf("\n将要调用工具: %s\n参数: %s\n",
+				tc.Function.Name, tc.Function.Arguments)
+			fmt.Print("参数是否正确? (y/n): ")
+
 			var response string
 			fmt.Scanln(&response)
 
 			if strings.ToLower(response) == "n" {
-				fmt.Print("Please enter the modified arguments: ")
+				fmt.Print("请输入新的参数: ")
 				scanner := bufio.NewScanner(os.Stdin)
-				var newArguments string
 				if scanner.Scan() {
-					newArguments = scanner.Text()
+					history[len(history)-1].ToolCalls[i].Function.Arguments = scanner.Text()
 				}
-
-				// Update the tool call arguments
-				history[len(history)-1].ToolCalls[i].Function.Arguments = newArguments
-				fmt.Printf("Updated arguments to: %s\n", newArguments)
 			}
 		}
 	}
@@ -90,8 +141,11 @@ func try() {
 
 func newChatTemplate(_ context.Context) prompt.ChatTemplate {
 	return prompt.FromMessages(schema.FString,
-		schema.SystemMessage("You are a helpful assistant. If the user asks about the booking, call the \"BookTicket\" tool to book ticket."),
-		schema.UserMessage("I'm {name}. Help me book a ticket to {location}"),
+		schema.SystemMessage(`你是一个{role}。
+			你可以进行对话并在需要时调用工具。
+			请保持友好和专业的态度。
+			如果用户询问订票相关问题，使用"BookTicket"工具进行预订。`),
+		schema.UserMessage("{input}"),
 	)
 }
 

@@ -12,7 +12,7 @@ func InitRetriever() {
 	// Create a retriever
 	retriever, err := milvus.NewRetriever(context.Background(), &milvus.RetrieverConfig{
 		Client:      *global.MilvusClient,
-		Collection:  "",
+		Collection:  "try",
 		Partition:   nil,
 		VectorField: "",
 		OutputFields: []string{

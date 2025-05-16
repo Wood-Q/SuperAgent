@@ -14,7 +14,7 @@ func TestSearchRAG(t *testing.T) {
 	initialize.InitClient()
 	initialize.InitEmbedder()
 	initialize.InitRetriever()
-	documents := SearchRAG("缪缪", context.Background())
+	documents := SearchRAG("助理", context.Background())
 	fmt.Println(documents)
 	require.NotEmpty(t, documents)
 }
