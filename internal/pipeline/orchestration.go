@@ -4,16 +4,15 @@ import (
 	"context"
 
 	"github.com/cloudwego/eino/compose"
+	"github.com/cloudwego/eino/schema"
 )
 
-func BuildAssitant(ctx context.Context) (r compose.Runnable[string, string], err error) {
+func BuildAssitant(ctx context.Context) (r compose.Runnable[map[string]any, *schema.Message], err error) {
 	const (
 		ChatTemplate1 = "ChatTemplate1"
 		Lambda1       = "Lambda1"
 	)
-	g := compose.NewGraph[string, string](compose.WithGenLocalState(func(ctx context.Context) (state any) {
-		panic("implement me")
-	}))
+	g := compose.NewGraph[map[string]any, *schema.Message]()
 	chatTemplate1KeyOfChatTemplate, err := newChatTemplate(ctx)
 	if err != nil {
 		return nil, err
