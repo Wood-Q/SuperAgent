@@ -1,7 +1,7 @@
-package initialize
+package config
 
 import (
-	"SuperAgent/global"
+	"MoonAgent/internal/global"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
