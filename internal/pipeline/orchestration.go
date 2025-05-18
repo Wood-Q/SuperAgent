@@ -3,29 +3,22 @@ package pipeline
 import (
 	"context"
 
+	"MoonAgent/pkg/config"
+
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
 )
 
-func BuildAssitant(ctx context.Context) (r compose.Runnable[map[string]any, *schema.Message], err error) {
-	const (
-		ChatTemplate1 = "ChatTemplate1"
-		Lambda1       = "Lambda1"
-	)
-	g := compose.NewGraph[map[string]any, *schema.Message]()
-	chatTemplate1KeyOfChatTemplate, err := newChatTemplate(ctx)
+func BuildAssitant(ctx context.Context, config *config.ServerConfig) (r compose.Runnable[[]*schema.Message, *schema.Message], err error) {
+	const Lambda3 = "Lambda3"
+	g := compose.NewGraph[[]*schema.Message, *schema.Message]()
+	lambda3KeyOfLambda, err := newLambda(ctx, config)
 	if err != nil {
 		return nil, err
 	}
-	_ = g.AddChatTemplateNode(ChatTemplate1, chatTemplate1KeyOfChatTemplate)
-	lambda1KeyOfLambda, err := newLambda(ctx)
-	if err != nil {
-		return nil, err
-	}
-	_ = g.AddLambdaNode(Lambda1, lambda1KeyOfLambda)
-	_ = g.AddEdge(compose.START, ChatTemplate1)
-	_ = g.AddEdge(Lambda1, compose.END)
-	_ = g.AddEdge(ChatTemplate1, Lambda1)
+	_ = g.AddLambdaNode(Lambda3, lambda3KeyOfLambda)
+	_ = g.AddEdge(compose.START, Lambda3)
+	_ = g.AddEdge(Lambda3, compose.END)
 	r, err = g.Compile(ctx, compose.WithGraphName("Assitant"), compose.WithNodeTriggerMode(compose.AnyPredecessor))
 	if err != nil {
 		return nil, err

@@ -1,4 +1,4 @@
-package models
+package config
 
 type ServerConfig struct {
 	Port           string         `mapstructure:"port" yaml:"port"`
