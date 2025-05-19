@@ -1,12 +1,10 @@
-package main
+package tests
 
 import (
-	"MoonAgent/internal/pipeline"
+	"MoonAgent/cmd/di"
 	"MoonAgent/pkg/config"
 	"context"
 	"fmt"
-
-	"github.com/cloudwego/eino/schema"
 )
 
 func main() {
@@ -14,16 +12,34 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	runnable, err := pipeline.BuildAssitant(context.Background(), config)
+	app, clear, err := di.InitializeApplication()
 	if err != nil {
 		panic(err)
 	}
-	out, err := runnable.Invoke(context.Background(), []*schema.Message{
-		{
-			Role:    "user",
-			Content: "你好，可以帮我搜索一下明日方舟缪尔赛思，并且跳到prts对应的页面吗",
-		},
-	})
+	defer clear()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// runnable, err := pipeline.BuildAssitant(context.Background(), config)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// out, err := runnable.Invoke(context.Background(), []*schema.Message{
+	// 	{
+	// 		Role:    "user",
+	// 		Content: "你好，可以为我搜索原神相关网站吗",
+	// 	},
+	// })
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(out.Content)
+
+	runnable, err := BuildAssitant(context.Background(), app, config)
+	if err != nil {
+		panic(err)
+	}
+	out, err := runnable.Invoke(context.Background(), "你好，可以告诉我缪尔赛思是一个怎样的人吗，塞雷娅对她来说是什么样的存在")
 	if err != nil {
 		panic(err)
 	}

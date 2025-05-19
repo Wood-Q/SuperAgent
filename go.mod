@@ -11,11 +11,15 @@ require (
 	github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250514085234-473e80da5261
-	github.com/fsnotify/fsnotify v1.8.0
 	github.com/google/wire v0.6.0
 	github.com/milvus-io/milvus-sdk-go/v2 v2.4.2
 	github.com/spf13/viper v1.20.1
 	go.uber.org/zap v1.27.0
+)
+
+require (
+	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
+	github.com/fsnotify/fsnotify v1.8.0 // indirect
 )
 
 require (
@@ -84,7 +88,7 @@ require (
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	github.com/volcengine/volc-sdk-golang v1.0.23 // indirect
+	github.com/volcengine/volc-sdk-golang v1.0.199 // indirect
 	github.com/volcengine/volcengine-go-sdk v1.1.4 // indirect
 	github.com/yargevad/filepathx v1.0.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.54.0 // indirect
@@ -104,7 +108,6 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241223144023-3abc09e42ca8 // indirect
 	google.golang.org/grpc v1.67.3 // indirect
 	google.golang.org/protobuf v1.36.1 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

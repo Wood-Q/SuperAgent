@@ -16,7 +16,7 @@ func newLambda(ctx context.Context, config *config.ServerConfig) (lba *compose.L
 
 	messageModifier := func(ctx context.Context, input []*schema.Message) []*schema.Message {
 		res := make([]*schema.Message, 0, len(input)+1)
-		res = append(res, schema.SystemMessage("你是一个 golang 开发专家."))
+		res = append(res, schema.SystemMessage("你是一个热情的小助手，会活泼地回答问题"))
 		res = append(res, input...)
 		return res
 	}
