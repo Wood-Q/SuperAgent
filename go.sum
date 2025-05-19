@@ -119,8 +119,12 @@ github.com/cloudwego/base64x v0.1.5 h1:XPciSp1xaq2VCSt6lF0phncD4koWyULpl5bUxbfCy
 github.com/cloudwego/base64x v0.1.5/go.mod h1:0zlkT4Wn5C6NdauXdJRhSKRlJvmclQ1hhJgA0rcu/8w=
 github.com/cloudwego/eino v0.3.33 h1:C7BXUiLfyVDt0u+77B9X47nJ2OqzPPJ4kzTjRy+QuQ8=
 github.com/cloudwego/eino v0.3.33/go.mod h1:wUjz990apdsaOraOXdh6CdhVXq8DJsOvLsVlxNTcNfY=
+github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261 h1:FNYxAKt7+MYEX1fMXmHVQEdS29/My+Tin3GTW6ZKNoU=
+github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261/go.mod h1:135pUb39QNsnr1B4/edT6QP/J8gZM7s+f7fCLHmk2AQ=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261 h1:YDr7CU6zuMQmoIIuw9Utqe63I1yE7eIZSY3tnKlZIIU=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261/go.mod h1:pLtH5BZKgb7/bB8+P3W5/f1d46gTl9K77+08j88Gb4k=
+github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250514085234-473e80da5261 h1:D782cSfTZpy95fWbgLi97PsDZmsdBXsmtr8kv+lBUqw=
+github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250514085234-473e80da5261/go.mod h1:iJmH1FFphZIXm+5+HcTDGSKVS2zo0havI6AEDz6R2eo=
 github.com/cloudwego/eino-ext/components/model/ark v0.1.8 h1:QU0M01WNTVf/63cUjD6S/D1lB+ggvcVH4ntZ+XKg5Lo=
 github.com/cloudwego/eino-ext/components/model/ark v0.1.8/go.mod h1:V3ZJbGMGXVYc1xgkBb3aEIGaS8BvPuVi2lub34vBO7k=
 github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250514085234-473e80da5261 h1:hj0iSD5afGuAbG8iZKbFHPpvlwrxre1VM0c2BHliAnE=

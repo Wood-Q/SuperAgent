@@ -6,7 +6,9 @@ toolchain go1.24.3
 
 require (
 	github.com/cloudwego/eino v0.3.33
+	github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261
+	github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/model/ark v0.1.8
 	github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261

@@ -6,24 +6,30 @@
 
 package di
 
+import (
+	"MoonAgent/pkg/embedder"
+	"MoonAgent/pkg/milvus"
+	"MoonAgent/pkg/retriever"
+)
+
 // Injectors from wire.go:
 
 // InitializeApplication 是我们的 injector 函数
 // 它声明了我们想构建 *Application，并列出了所有的 Provider
 func InitializeApplication() (*Application, func(), error) {
-	client, err := ProvideMilvusClient()
+	client, err := milvus.ProvideMilvusClient()
 	if err != nil {
 		return nil, nil, err
 	}
-	embedder, err := ProvideEmbedder()
+	arkEmbedder, err := embedder.ProvideEmbedder()
 	if err != nil {
 		return nil, nil, err
 	}
-	retriever, err := ProvideRetriever(client, embedder)
+	milvusRetriever, err := retriever.ProvideRetriever(client, arkEmbedder)
 	if err != nil {
 		return nil, nil, err
 	}
-	application := ProvideApplication(client, embedder, retriever)
+	application := ProvideApplication(client, arkEmbedder, milvusRetriever)
 	return application, func() {
 	}, nil
 }

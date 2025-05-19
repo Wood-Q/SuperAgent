@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"MoonAgent/pkg/utils"
+	"MoonAgent/pkg/tools"
 
 	"github.com/cloudwego/eino-ext/components/tool/googlesearch"
 	"github.com/cloudwego/eino/components/tool"
@@ -56,7 +56,7 @@ func (impl *JumpWebPageImpl) InvokableRun(ctx context.Context, argumentsInJSON s
 		return "", err
 	}
 	if p.URL != "" {
-		return utils.GoToWebPage(ctx, p.URL)
+		return tools.GoToWebPage(ctx, p.URL)
 	}
 	return "", nil
 }
