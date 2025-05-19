@@ -13,7 +13,7 @@ func NewConfig() (*ServerConfig, error) {
 	v := viper.New()
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")
-	v.AddConfigPath("/Users/woodq/FullStack/SuperAgent/configs")
+	v.AddConfigPath("../configs")
 	if err := v.ReadInConfig(); err != nil {
 		zap.S().Errorw("Failed to read config file", "error", err.Error())
 		return nil, err

@@ -2,6 +2,7 @@ package splitter
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic"
 	"github.com/cloudwego/eino-ext/components/embedding/ark"
@@ -14,7 +15,7 @@ func SplitDocs(ctx context.Context, embedder *ark.Embedder, docs []*schema.Docum
 		Embedding:    embedder,
 		BufferSize:   2,
 		MinChunkSize: 100,
-		Percentile:   0.95,
+		Percentile:   0.9,
 	})
 	if err != nil {
 		zap.S().Error("Failed to create splitter: %v", zap.String("error", err.Error()))
@@ -25,6 +26,9 @@ func SplitDocs(ctx context.Context, embedder *ark.Embedder, docs []*schema.Docum
 	if err != nil {
 		zap.S().Error("Failed to transform: %v", zap.String("error", err.Error()))
 		return nil, err
+	}
+	for i, result := range results {
+		result.ID = docs[0].ID + "_" + strconv.Itoa(i)
 	}
 	return results, nil
 }

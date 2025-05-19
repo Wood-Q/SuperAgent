@@ -2,8 +2,10 @@ package main
 
 import (
 	"MoonAgent/cmd/di"
+	"MoonAgent/pkg/splitter"
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/cloudwego/eino/schema"
 )
@@ -15,32 +17,24 @@ func main() {
 		panic(err)
 	}
 	defer clear()
-
-	// content, err := os.ReadFile("../assets/documents/muelsyse copy.txt")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// document := []*schema.Document{
-	// 	{
-	// 		ID:      "muelsyse",
-	// 		Content: string(content),
-	// 	},
-	// }
-	// docs, err := splitter.SplitDocs(ctx, app.Embedder, document)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(docs)
-	documents := []*schema.Document{
-		{
-			ID:       "test",
-			Content:  "test",
-			MetaData: map[string]any{"source": "test"},
-		},
-	}
-	ids, err := app.Indexer.Store(ctx, documents)
+	content, err := os.ReadFile("../assets/documents/muelsyse_docs.txt")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(ids)
+	document := []*schema.Document{
+		{
+			ID:      "muelsyse",
+			Content: string(content),
+		},
+	}
+	docs, err := splitter.SplitDocs(ctx, app.Embedder, document)
+	if err != nil {
+		panic(err)
+	}
+	_, err = app.Indexer.Store(ctx, docs)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Document stored successfully")
+
 }

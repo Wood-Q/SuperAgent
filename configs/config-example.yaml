@@ -1,5 +1,19 @@
+# 服务配置
 host: "127.0.0.1"
 port: "9090"
+# 大模型配置
 llm:
-  base_url: "http://localhost:11434"
-  model: "qwen3:8b"
+  # 本地大模型地址
+  base_url: ""
+  # 大模型api_key
+  api_key: ""
+  # 大模型模型名称
+  model: ""
+# 向量数据库配置
+document:
+  # 向量数据库地址
+  addr: "127.0.0.1:19530"
+  # 向量模型api_key
+  api_key: ""
+  # 向量模型名称
+  model: ""
