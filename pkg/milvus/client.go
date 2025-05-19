@@ -9,9 +9,9 @@ import (
 )
 
 // ProvideMilvusClient 提供 Milvus 客户端
-func ProvideMilvusClient() (*client.Client, error) {
+func ProvideMilvusClient(cfg *config.ServerConfig) (*client.Client, error) {
 	Client, err := client.NewClient(context.Background(), client.Config{
-		Address: config.GlobalConfig.DocumentConfig.Addr,
+		Address: cfg.DocumentConfig.Addr,
 	})
 	if err != nil {
 		zap.S().Error("Failed to create client: %v", zap.String("error", err.Error()))

@@ -9,14 +9,12 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewSplitter(ctx context.Context, embedder *ark.Embedder, docs []*schema.Document) ([]*schema.Document, error) {
-	// 初始化分割器
+func SplitDocs(ctx context.Context, embedder *ark.Embedder, docs []*schema.Document) ([]*schema.Document, error) {
 	splitter, err := semantic.NewSplitter(ctx, &semantic.Config{
 		Embedding:    embedder,
 		BufferSize:   2,
 		MinChunkSize: 100,
-		Separators:   []string{"\n", ".", "?", "!"},
-		Percentile:   0.9,
+		Percentile:   0.95,
 	})
 	if err != nil {
 		zap.S().Error("Failed to create splitter: %v", zap.String("error", err.Error()))

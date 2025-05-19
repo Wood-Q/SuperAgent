@@ -7,9 +7,12 @@
 package di
 
 import (
+	"MoonAgent/pkg/config"
 	"MoonAgent/pkg/embedder"
+	"MoonAgent/pkg/indexer"
 	"MoonAgent/pkg/milvus"
 	"MoonAgent/pkg/retriever"
+	milvus2 "github.com/cloudwego/eino-ext/components/indexer/milvus"
 )
 
 // Injectors from wire.go:
@@ -17,11 +20,15 @@ import (
 // InitializeApplication 是我们的 injector 函数
 // 它声明了我们想构建 *Application，并列出了所有的 Provider
 func InitializeApplication() (*Application, func(), error) {
-	client, err := milvus.ProvideMilvusClient()
+	serverConfig, err := config.NewConfig()
 	if err != nil {
 		return nil, nil, err
 	}
-	arkEmbedder, err := embedder.ProvideEmbedder()
+	client, err := milvus.ProvideMilvusClient(serverConfig)
+	if err != nil {
+		return nil, nil, err
+	}
+	arkEmbedder, err := embedder.ProvideEmbedder(serverConfig)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -29,7 +36,13 @@ func InitializeApplication() (*Application, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	application := ProvideApplication(client, arkEmbedder, milvusRetriever)
+	indexerConfig := indexer.NewIndexerConfig(client, arkEmbedder)
+	context := ProvideContext()
+	milvusIndexer, err := milvus2.NewIndexer(context, indexerConfig)
+	if err != nil {
+		return nil, nil, err
+	}
+	application := ProvideApplication(serverConfig, client, arkEmbedder, milvusRetriever, indexerConfig, milvusIndexer)
 	return application, func() {
 	}, nil
 }

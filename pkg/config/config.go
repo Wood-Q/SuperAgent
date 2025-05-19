@@ -9,11 +9,11 @@ import (
 var GlobalConfig *ServerConfig
 
 // NewConfig 加载完毕后直接把结构体返回
-func NewConfig(path string) (*ServerConfig, error) {
+func NewConfig() (*ServerConfig, error) {
 	v := viper.New()
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")
-	v.AddConfigPath(path)
+	v.AddConfigPath("/Users/woodq/FullStack/SuperAgent/configs")
 	if err := v.ReadInConfig(); err != nil {
 		zap.S().Errorw("Failed to read config file", "error", err.Error())
 		return nil, err
@@ -25,7 +25,5 @@ func NewConfig(path string) (*ServerConfig, error) {
 		zap.S().Errorw("Failed to unmarshal config", "error", err.Error())
 		return nil, err
 	}
-
-	GlobalConfig = tmp
-	return GlobalConfig, nil
+	return tmp, nil
 }

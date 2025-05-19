@@ -3,17 +3,17 @@ package pipeline
 import (
 	"context"
 
-	"MoonAgent/pkg/config"
+	"MoonAgent/cmd/di"
 
 	"github.com/cloudwego/eino-ext/components/model/ark"
 	"github.com/cloudwego/eino/components/model"
 )
 
-func newChatModel(ctx context.Context, config *config.ServerConfig) (cm model.ToolCallingChatModel, err error) {
+func newChatModel(ctx context.Context, app *di.Application) (cm model.ToolCallingChatModel, err error) {
 	// TODO Modify component configuration here.
 	modelConfig := &ark.ChatModelConfig{
-		APIKey: config.LLMConfig.API_KEY,
-		Model:  config.LLMConfig.MODEL,
+		APIKey: app.ServerConfig.LLMConfig.API_KEY,
+		Model:  app.ServerConfig.LLMConfig.MODEL,
 	}
 	cm, err = ark.NewChatModel(ctx, modelConfig)
 	if err != nil {

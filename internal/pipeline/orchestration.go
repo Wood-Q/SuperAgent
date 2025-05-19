@@ -6,12 +6,11 @@ import (
 	"github.com/cloudwego/eino/compose"
 
 	"MoonAgent/cmd/di"
-	"MoonAgent/pkg/config"
 
 	"github.com/cloudwego/eino/schema"
 )
 
-func BuildAssitant(ctx context.Context, app *di.Application, configs *config.ServerConfig) (r compose.Runnable[string, *schema.Message], err error) {
+func BuildAssitant(ctx context.Context, app *di.Application) (r compose.Runnable[string, *schema.Message], err error) {
 	const (
 		Lambda3       = "Lambda3"
 		ChatTemplate2 = "ChatTemplate2"
@@ -19,7 +18,7 @@ func BuildAssitant(ctx context.Context, app *di.Application, configs *config.Ser
 		Lambda5       = "Lambda5"
 	)
 	g := compose.NewGraph[string, *schema.Message]()
-	lambda3KeyOfLambda, err := newLambda(ctx, configs)
+	lambda3KeyOfLambda, err := newLambda(ctx, app)
 	if err != nil {
 		return nil, err
 	}

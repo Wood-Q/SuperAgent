@@ -1,7 +1,7 @@
 package pipeline
 
 import (
-	"MoonAgent/pkg/config"
+	"MoonAgent/cmd/di"
 	"context"
 
 	"github.com/cloudwego/eino/components/tool"
@@ -10,10 +10,10 @@ import (
 )
 
 // newLambda component initialization function of node 'Lambda3' in graph 'Assitant'
-func newLambda(ctx context.Context, configs *config.ServerConfig) (lba *compose.Lambda, err error) {
+func newLambda(ctx context.Context, app *di.Application) (lba *compose.Lambda, err error) {
 	// TODO Modify component configuration here.
 	config := &react.AgentConfig{}
-	chatModelIns11, err := newChatModel(ctx, configs)
+	chatModelIns11, err := newChatModel(ctx, app)
 	if err != nil {
 		return nil, err
 	}
