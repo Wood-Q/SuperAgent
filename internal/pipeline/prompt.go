@@ -1,4 +1,4 @@
-package tests
+package pipeline
 
 import (
 	"context"
