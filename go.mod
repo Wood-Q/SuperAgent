@@ -13,6 +13,7 @@ require (
 	github.com/cloudwego/eino-ext/components/retriever/milvus v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250514085234-473e80da5261
+	github.com/cloudwego/hertz v0.10.0
 	github.com/google/wire v0.6.0
 	github.com/milvus-io/milvus-sdk-go/v2 v2.4.2
 	github.com/spf13/viper v1.20.1
@@ -28,6 +29,7 @@ require (
 	cloud.google.com/go/auth v0.13.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.6 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
+	github.com/bytedance/gopkg v0.1.1 // indirect
 	github.com/bytedance/sonic v1.13.2 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
 	github.com/chromedp/cdproto v0.0.0-20250319231242-a755498943c8 // indirect
@@ -35,6 +37,8 @@ require (
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/cloudwego/eino-ext/components/tool/duckduckgo v0.0.0-20250403035559-e5332ba7144a // indirect
+	github.com/cloudwego/gopkg v0.1.4 // indirect
+	github.com/cloudwego/netpoll v0.7.0 // indirect
 	github.com/cockroachdb/errors v1.9.1 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20211118104740-dabe8e521a4f // indirect
 	github.com/cockroachdb/redact v1.1.3 // indirect
@@ -73,6 +77,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/nikolalohinski/gonja v1.5.3 // indirect
+	github.com/nyaruka/phonenumbers v1.0.55 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/perimeterx/marshmallow v1.1.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
