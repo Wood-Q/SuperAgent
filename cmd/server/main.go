@@ -14,6 +14,6 @@ func main() {
 	}
 	defer clear()
 	H := server.Default()
-	router.InitRouter(H,app)
+	router.InitRouter(H, app)
 	H.Spin()
 }

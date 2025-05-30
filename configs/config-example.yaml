@@ -17,3 +17,9 @@ document:
   api_key: ""
   # 向量模型名称
   model: ""
+# 浏览器配置
+browser:
+  # 浏览器api_key
+  api_key: ""
+  # 浏览器搜索引擎id
+  search_engine_id: ""

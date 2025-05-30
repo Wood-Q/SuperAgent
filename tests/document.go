@@ -10,7 +10,7 @@ import (
 	"github.com/cloudwego/eino/schema"
 )
 
-func main() {
+func ma() {
 	ctx := context.Background()
 	app, clear, err := di.InitializeApplication()
 	if err != nil {

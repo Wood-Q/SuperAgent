@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func ma() {
+func main() {
 	app, clear, err := di.InitializeApplication()
 	if err != nil {
 		panic(err)
@@ -20,9 +20,15 @@ func ma() {
 	if err != nil {
 		panic(err)
 	}
-	out, err := runnable.Invoke(ctx, userInput)
+	out, err := runnable.Stream(ctx, userInput)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(out.Content)
+	for {
+		chunk, err := out.Recv()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(chunk)
+	}
 }

@@ -18,7 +18,7 @@ func newLambda(ctx context.Context, app *di.Application) (lba *compose.Lambda, e
 		return nil, err
 	}
 	config.ToolCallingModel = chatModelIns11
-	toolIns21, err := newGoogleSearchTool(ctx)
+	toolIns21, err := newGoogleSearchTool(ctx, app)
 	if err != nil {
 		return nil, err
 	}

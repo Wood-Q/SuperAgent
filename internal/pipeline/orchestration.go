@@ -17,17 +17,21 @@ func BuildAssitant(ctx context.Context, app *di.Application) (r compose.Runnable
 		Retriever4    = "Retriever4"
 		Lambda5       = "Lambda5"
 	)
+	// 构建图
 	g := compose.NewGraph[string, *schema.Message]()
+	// 构建Lambda3
 	lambda3KeyOfLambda, err := newLambda(ctx, app)
 	if err != nil {
 		return nil, err
 	}
 	_ = g.AddLambdaNode(Lambda3, lambda3KeyOfLambda)
+	// 构建ChatTemplate2
 	chatTemplate2KeyOfChatTemplate, err := newChatTemplate(ctx)
 	if err != nil {
 		return nil, err
 	}
 	_ = g.AddChatTemplateNode(ChatTemplate2, chatTemplate2KeyOfChatTemplate)
+	// 构建Retriever4
 	retriever4KeyOfRetriever := app.Retriever
 	if err != nil {
 		return nil, err

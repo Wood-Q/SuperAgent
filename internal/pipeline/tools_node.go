@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"MoonAgent/cmd/di"
 	"MoonAgent/pkg/tools"
 
 	"github.com/cloudwego/eino-ext/components/tool/googlesearch"
@@ -11,10 +12,10 @@ import (
 	"github.com/cloudwego/eino/schema"
 )
 
-func newGoogleSearchTool(ctx context.Context) (bt tool.BaseTool, err error) {
+func newGoogleSearchTool(ctx context.Context, app *di.Application) (bt tool.BaseTool, err error) {
 	config := &googlesearch.Config{
-		APIKey:         "AIzaSyDrKLkc290NdtNfC8fkOVQTVCPq_yuXZpA",
-		SearchEngineID: "60af7f26ff64c4d55",
+		APIKey:         app.ServerConfig.BrowserConfig.API_KEY,
+		SearchEngineID: app.ServerConfig.BrowserConfig.SearchEngineID,
 	}
 	bt, err = googlesearch.NewTool(ctx, config)
 	if err != nil {

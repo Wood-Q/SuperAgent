@@ -128,7 +128,7 @@ export const streamChatWithModel = async (userInput, onChunk, onError) => {
  */
 export const chatWithModel = async (userInput) => {
   try {
-    const response = await apiClient.post("/", {
+    const response = await apiClient.post("", {
       userInput: userInput,
     });
     return response.data;
