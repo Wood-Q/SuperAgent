@@ -2,7 +2,7 @@ package toolcallagent
 
 import (
 	reactagent "MoonAgent/internal/agents/ReActAgent"
-	"context"
+	"MoonAgent/internal/agents/orchestration"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -39,18 +39,22 @@ func NewToolCallAgent(name string, systemPrompt string, nextPrompt string, chatM
 	return ta
 }
 
-func (ta *ToolCallAgent) Think(ctx context.Context, history []reactagent.ReActStep) (*schema.Message, error) {
+func (ta *ToolCallAgent) Think(octx *orchestration.OrchestrationContext, history []reactagent.ReActStep) (*schema.Message, error) {
 	if len(ta.Tools) == 0 {
 		return nil, errors.New("no tools available")
 	}
 
-	userInput := ctx.Value("userPrompt").(string)
+	userInput, exists := octx.GetInputString("userPrompt")
+	if !exists {
+		return nil, errors.New("userPrompt not found in orchestration context")
+	}
+
 	prompt := ta.buildThinkPrompt(userInput, history)
 
 	// 构建包含工具信息的系统提示
 	systemPrompt := ta.buildSystemPromptWithTools()
 
-	resp, err := ta.ReActAgent.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
+	resp, err := ta.ReActAgent.BaseAgent.GetChatModel().Generate(octx.Context(), []*schema.Message{
 		{Role: "system", Content: systemPrompt},
 		{Role: "user", Content: prompt},
 	})
@@ -63,7 +67,7 @@ func (ta *ToolCallAgent) Think(ctx context.Context, history []reactagent.ReActSt
 	return resp, nil
 }
 
-func (ta *ToolCallAgent) Act(ctx context.Context, thought string) (*schema.Message, error) {
+func (ta *ToolCallAgent) Act(octx *orchestration.OrchestrationContext, thought string) (*schema.Message, error) {
 	// 分析思考内容，确定需要调用的工具
 	toolCall := ta.parseToolCall(thought)
 
@@ -76,13 +80,16 @@ func (ta *ToolCallAgent) Act(ctx context.Context, thought string) (*schema.Messa
 	}
 
 	// 执行工具调用
-	_, err := ta.executeToolCall(ctx, toolCall)
+	result, err := ta.executeToolCall(octx, toolCall)
 	if err != nil {
 		return &schema.Message{
 			Role:    "assistant",
 			Content: fmt.Sprintf("工具调用失败: %s", err.Error()),
 		}, nil
 	}
+
+	// 将工具调用结果存储到编排上下文
+	octx.SetInput("lastToolResult", result)
 
 	return &schema.Message{
 		Role:      "assistant",
@@ -91,9 +98,15 @@ func (ta *ToolCallAgent) Act(ctx context.Context, thought string) (*schema.Messa
 	}, nil
 }
 
-func (ta *ToolCallAgent) Observe(ctx context.Context, action string) (*schema.Message, error) {
+func (ta *ToolCallAgent) Observe(octx *orchestration.OrchestrationContext, action string) (*schema.Message, error) {
 	// 观察工具调用的结果
-	observation := fmt.Sprintf("工具执行完成。行动内容: %s", action)
+	var observation string
+
+	if result, exists := octx.GetInputString("lastToolResult"); exists {
+		observation = fmt.Sprintf("工具执行完成。行动内容: %s\n执行结果: %s", action, result)
+	} else {
+		observation = fmt.Sprintf("工具执行完成。行动内容: %s", action)
+	}
 
 	return &schema.Message{
 		Role:    "assistant",
@@ -201,7 +214,7 @@ func (ta *ToolCallAgent) extractArguments(thought string, tool schema.ToolInfo) 
 }
 
 // 执行工具调用
-func (ta *ToolCallAgent) executeToolCall(ctx context.Context, toolCall *schema.ToolCall) (string, error) {
+func (ta *ToolCallAgent) executeToolCall(octx *orchestration.OrchestrationContext, toolCall *schema.ToolCall) (string, error) {
 	tool, exists := ta.toolMap[toolCall.Function.Name]
 	if !exists {
 		return "", fmt.Errorf("tool %s not found", toolCall.Function.Name)
@@ -220,13 +233,13 @@ func (ta *ToolCallAgent) executeToolCall(ctx context.Context, toolCall *schema.T
 }
 
 // Run 重写Run方法以支持工具调用
-func (ta *ToolCallAgent) Run(ctx context.Context, input string) (*schema.Message, error) {
-	return ta.ReActAgent.BaseAgent.Run(ctx, input)
+func (ta *ToolCallAgent) Run(octx *orchestration.OrchestrationContext, input string) (*schema.Message, error) {
+	return ta.ReActAgent.BaseAgent.Run(octx, input)
 }
 
 // RunStream 重写RunStream方法以支持流式工具调用
-func (ta *ToolCallAgent) RunStream(ctx context.Context, input string) (<-chan *schema.Message, error) {
-	return ta.ReActAgent.BaseAgent.RunStream(ctx, input)
+func (ta *ToolCallAgent) RunStream(octx *orchestration.OrchestrationContext, input string) (<-chan *schema.Message, error) {
+	return ta.ReActAgent.BaseAgent.RunStream(octx, input)
 }
 
 // Reset 重置状态

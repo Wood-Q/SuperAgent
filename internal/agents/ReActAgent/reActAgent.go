@@ -2,7 +2,8 @@ package reactagent
 
 import (
 	baseagent "MoonAgent/internal/agents/baseAgent"
-	"context"
+	"MoonAgent/internal/agents/orchestration"
+	"errors"
 	"strings"
 
 	"github.com/cloudwego/eino/components/model"
@@ -11,9 +12,12 @@ import (
 )
 
 type ReActAgentInterface interface {
-	Think(ctx context.Context) (*schema.Message, error)
-	Act(ctx context.Context, action string) (*schema.Message, error)
-	Observe(ctx context.Context, observation string) (*schema.Message, error)
+	//ReAct所需的思考行为
+	Think(octx *orchestration.OrchestrationContext) (*schema.Message, error)
+	//ReAct所需的行动行为
+	Act(octx *orchestration.OrchestrationContext, action string) (*schema.Message, error)
+	//ReAct所需的观察行为
+	Observe(octx *orchestration.OrchestrationContext, observation string) (*schema.Message, error)
 }
 
 type ReActStep struct {
@@ -34,9 +38,9 @@ type ReActAgent struct {
 	maxLoops     int
 
 	// Custom functions for ReAct cycle
-	ThinkFunc   func(ctx context.Context, history []ReActStep) (*schema.Message, error)
-	ActFunc     func(ctx context.Context, thought string) (*schema.Message, error)
-	ObserveFunc func(ctx context.Context, action string) (*schema.Message, error)
+	ThinkFunc   func(octx *orchestration.OrchestrationContext, history []ReActStep) (*schema.Message, error)
+	ActFunc     func(octx *orchestration.OrchestrationContext, thought string) (*schema.Message, error)
+	ObserveFunc func(octx *orchestration.OrchestrationContext, action string) (*schema.Message, error)
 }
 
 func NewReActAgent(name string, systemPrompt string, nextPrompt string, chatModel model.ToolCallingChatModel) *ReActAgent {
@@ -52,7 +56,7 @@ func NewReActAgent(name string, systemPrompt string, nextPrompt string, chatMode
 	return ra
 }
 
-func (ra *ReActAgent) Step(ctx context.Context) (*schema.Message, error) {
+func (ra *ReActAgent) Step(octx *orchestration.OrchestrationContext) (*schema.Message, error) {
 	if ra.currentLoop >= ra.maxLoops {
 		return &schema.Message{
 			Role:    "assistant",
@@ -61,11 +65,12 @@ func (ra *ReActAgent) Step(ctx context.Context) (*schema.Message, error) {
 	}
 
 	// 1. Think - 推理阶段
-	thinkResult, err := ra.Think(ctx)
+	thinkResult, err := ra.Think(octx)
 	if err != nil {
 		return nil, err
 	}
 
+	//思考内容合并
 	if thinkResult != nil && thinkResult.Content != "" {
 		ra.thoughts = append(ra.thoughts, thinkResult.Content)
 		zap.L().Info("ReAct Think",
@@ -74,8 +79,9 @@ func (ra *ReActAgent) Step(ctx context.Context) (*schema.Message, error) {
 
 		// 检查是否需要采取行动
 		if ra.needsAction(thinkResult.Content) {
+			
 			// 2. Act - 行动阶段
-			actResult, err := ra.Act(ctx, thinkResult.Content)
+			actResult, err := ra.Act(octx, thinkResult.Content)
 			if err != nil {
 				return nil, err
 			}
@@ -87,7 +93,7 @@ func (ra *ReActAgent) Step(ctx context.Context) (*schema.Message, error) {
 					zap.String("action", actResult.Content))
 
 				// 3. Observe - 观察阶段
-				observeResult, err := ra.Observe(ctx, actResult.Content)
+				observeResult, err := ra.Observe(octx, actResult.Content)
 				if err != nil {
 					return nil, err
 				}
@@ -108,17 +114,21 @@ func (ra *ReActAgent) Step(ctx context.Context) (*schema.Message, error) {
 	return ra.buildCompleteResponse(), nil
 }
 
-func (ra *ReActAgent) Think(ctx context.Context) (*schema.Message, error) {
+func (ra *ReActAgent) Think(octx *orchestration.OrchestrationContext) (*schema.Message, error) {
 	if ra.ThinkFunc != nil {
 		history := ra.buildHistory()
-		return ra.ThinkFunc(ctx, history)
+		return ra.ThinkFunc(octx, history)
 	}
 
 	// 默认的思考实现
-	userInput := ctx.Value("userPrompt").(string)
+	userInput, exists := octx.GetInputString("userPrompt")
+	if !exists {
+		return nil, errors.New("userPrompt not found in orchestration context")
+	}
+
 	prompt := ra.buildThinkPrompt(userInput)
 
-	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(octx.Context(), []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})
@@ -130,15 +140,15 @@ func (ra *ReActAgent) Think(ctx context.Context) (*schema.Message, error) {
 	return resp, nil
 }
 
-func (ra *ReActAgent) Act(ctx context.Context, thought string) (*schema.Message, error) {
+func (ra *ReActAgent) Act(octx *orchestration.OrchestrationContext, thought string) (*schema.Message, error) {
 	if ra.ActFunc != nil {
-		return ra.ActFunc(ctx, thought)
+		return ra.ActFunc(octx, thought)
 	}
 
 	// 默认的行动实现
 	prompt := ra.buildActPrompt(thought)
 
-	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(octx.Context(), []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})
@@ -150,15 +160,15 @@ func (ra *ReActAgent) Act(ctx context.Context, thought string) (*schema.Message,
 	return resp, nil
 }
 
-func (ra *ReActAgent) Observe(ctx context.Context, action string) (*schema.Message, error) {
+func (ra *ReActAgent) Observe(octx *orchestration.OrchestrationContext, action string) (*schema.Message, error) {
 	if ra.ObserveFunc != nil {
-		return ra.ObserveFunc(ctx, action)
+		return ra.ObserveFunc(octx, action)
 	}
 
 	// 默认的观察实现
 	prompt := ra.buildObservePrompt(action)
 
-	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(octx.Context(), []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})

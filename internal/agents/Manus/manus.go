@@ -2,6 +2,7 @@ package manus
 
 import (
 	toolcallagent "MoonAgent/internal/agents/ToolCallAgent"
+	"MoonAgent/internal/agents/orchestration"
 	"context"
 	"fmt"
 
@@ -78,12 +79,16 @@ func DefaultManusConfig() *ManusConfig {
 }
 
 // Run 运行Manus处理用户输入
-func (m *Manus) Run(ctx context.Context, input string) (*schema.Message, error) {
+func (m *Manus) Run(octx *orchestration.OrchestrationContext, input string) (*schema.Message, error) {
 	m.logger.Info("Manus开始处理用户请求",
 		zap.String("input", input),
 		zap.String("name", m.config.Name))
 
-	result, err := m.ToolCallAgent.Run(ctx, input)
+	// 设置元数据
+	octx.SetMetadata("agent_name", m.config.Name)
+	octx.SetMetadata("agent_type", "Manus")
+
+	result, err := m.ToolCallAgent.Run(octx, input)
 	if err != nil {
 		m.logger.Error("Manus处理失败", zap.Error(err))
 		return nil, fmt.Errorf("Manus处理失败: %w", err)
@@ -96,12 +101,16 @@ func (m *Manus) Run(ctx context.Context, input string) (*schema.Message, error) 
 }
 
 // RunStream 流式运行Manus
-func (m *Manus) RunStream(ctx context.Context, input string) (<-chan *schema.Message, error) {
+func (m *Manus) RunStream(octx *orchestration.OrchestrationContext, input string) (<-chan *schema.Message, error) {
 	m.logger.Info("Manus开始流式处理用户请求",
 		zap.String("input", input),
 		zap.String("name", m.config.Name))
 
-	return m.ToolCallAgent.RunStream(ctx, input)
+	// 设置元数据
+	octx.SetMetadata("agent_name", m.config.Name)
+	octx.SetMetadata("agent_type", "Manus")
+
+	return m.ToolCallAgent.RunStream(octx, input)
 }
 
 // AddTool 添加工具
@@ -181,16 +190,28 @@ func (m *Manus) GetDebugInfo() map[string]interface{} {
 }
 
 // Think 执行思考步骤（暴露给外部使用）
-func (m *Manus) Think(ctx context.Context) (*schema.Message, error) {
-	return m.ToolCallAgent.ReActAgent.Think(ctx)
+func (m *Manus) Think(octx *orchestration.OrchestrationContext) (*schema.Message, error) {
+	return m.ToolCallAgent.ReActAgent.Think(octx)
 }
 
 // Act 执行行动步骤（暴露给外部使用）
-func (m *Manus) Act(ctx context.Context, thought string) (*schema.Message, error) {
-	return m.ToolCallAgent.ReActAgent.Act(ctx, thought)
+func (m *Manus) Act(octx *orchestration.OrchestrationContext, thought string) (*schema.Message, error) {
+	return m.ToolCallAgent.Act(octx, thought)
 }
 
 // Observe 执行观察步骤（暴露给外部使用）
-func (m *Manus) Observe(ctx context.Context, action string) (*schema.Message, error) {
-	return m.ToolCallAgent.ReActAgent.Observe(ctx, action)
+func (m *Manus) Observe(octx *orchestration.OrchestrationContext, action string) (*schema.Message, error) {
+	return m.ToolCallAgent.Observe(octx, action)
+}
+
+// RunWithContext 使用标准context创建OrchestrationContext并运行
+func (m *Manus) RunWithContext(ctx context.Context, input string) (*schema.Message, error) {
+	octx := orchestration.NewOrchestrationContext(ctx)
+	return m.Run(octx, input)
+}
+
+// RunStreamWithContext 使用标准context创建OrchestrationContext并流式运行
+func (m *Manus) RunStreamWithContext(ctx context.Context, input string) (<-chan *schema.Message, error) {
+	octx := orchestration.NewOrchestrationContext(ctx)
+	return m.RunStream(octx, input)
 }
