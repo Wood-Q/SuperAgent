@@ -19,7 +19,7 @@ type ToolCallAgent struct {
 	toolMap    map[string]schema.ToolInfo
 }
 
-func NewToolCallAgent(name string, systemPrompt string, nextPrompt string, chatModel *model.BaseChatModel, tools []schema.ToolInfo) *ToolCallAgent {
+func NewToolCallAgent(name string, systemPrompt string, nextPrompt string, chatModel model.ToolCallingChatModel, tools []schema.ToolInfo) *ToolCallAgent {
 	ta := &ToolCallAgent{
 		ReActAgent: reactagent.NewReActAgent(name, systemPrompt, nextPrompt, chatModel),
 		Tools:      tools,
@@ -50,7 +50,7 @@ func (ta *ToolCallAgent) Think(ctx context.Context, history []reactagent.ReActSt
 	// 构建包含工具信息的系统提示
 	systemPrompt := ta.buildSystemPromptWithTools()
 
-	resp, err := (*ta.ReActAgent.BaseAgent.GetChatModel()).Generate(ctx, []*schema.Message{
+	resp, err := ta.ReActAgent.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
 		{Role: "system", Content: systemPrompt},
 		{Role: "user", Content: prompt},
 	})

@@ -1,4 +1,4 @@
-package agents
+package main
 
 import (
 	manus "MoonAgent/internal/agents/Manus"
@@ -13,10 +13,8 @@ import (
 )
 
 // ExampleUsage 展示如何使用各种Agent
-func ExampleUsage() {
-	// 假设我们有一个聊天模型
-	var chatModel *model.BaseChatModel
-
+func main() {
+	var chatModel model.ToolCallingChatModel
 	// 1. 使用BaseAgent
 	fmt.Println("=== BaseAgent 示例 ===")
 	baseAgentExample(chatModel)
@@ -35,7 +33,7 @@ func ExampleUsage() {
 }
 
 // baseAgentExample BaseAgent使用示例
-func baseAgentExample(chatModel *model.BaseChatModel) {
+func baseAgentExample(chatModel model.ToolCallingChatModel) {
 	// 创建BaseAgent
 	agent := baseagent.NewBaseAgent(
 		"BaseAgent示例",
@@ -66,7 +64,7 @@ func baseAgentExample(chatModel *model.BaseChatModel) {
 }
 
 // reactAgentExample ReActAgent使用示例
-func reactAgentExample(chatModel *model.BaseChatModel) {
+func reactAgentExample(chatModel model.ToolCallingChatModel) {
 	// 创建ReActAgent
 	agent := reactagent.NewReActAgent(
 		"ReActAgent示例",
@@ -114,7 +112,7 @@ func reactAgentExample(chatModel *model.BaseChatModel) {
 }
 
 // toolCallAgentExample ToolCallAgent使用示例
-func toolCallAgentExample(chatModel *model.BaseChatModel) {
+func toolCallAgentExample(chatModel model.ToolCallingChatModel) {
 	// 定义工具
 	tools := []schema.ToolInfo{
 		{
@@ -149,7 +147,7 @@ func toolCallAgentExample(chatModel *model.BaseChatModel) {
 }
 
 // manusExample Manus使用示例
-func manusExample(chatModel *model.BaseChatModel) {
+func manusExample(chatModel model.ToolCallingChatModel) {
 	// 定义工具
 	tools := []schema.ToolInfo{
 		{
@@ -228,7 +226,7 @@ func manusExample(chatModel *model.BaseChatModel) {
 }
 
 // StreamingExample 流式处理的详细示例
-func StreamingExample(chatModel *model.BaseChatModel) {
+func StreamingExample(chatModel model.ToolCallingChatModel) {
 	fmt.Println("=== 流式处理详细示例 ===")
 
 	tools := []schema.ToolInfo{

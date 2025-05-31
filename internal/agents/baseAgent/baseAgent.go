@@ -33,10 +33,10 @@ type BaseAgent struct {
 
 	StepFunc func(ctx context.Context) (*schema.Message, error)
 
-	chatModel *model.BaseChatModel
+	chatModel model.ToolCallingChatModel
 }
 
-func NewBaseAgent(name string, systemPrompt string, nextPrompt string, chatModel *model.BaseChatModel) *BaseAgent {
+func NewBaseAgent(name string, systemPrompt string, nextPrompt string, chatModel model.ToolCallingChatModel) *BaseAgent {
 	return &BaseAgent{
 		name:         name,
 		systemPrompt: systemPrompt,
@@ -204,7 +204,7 @@ func (a *BaseAgent) shouldStop(result *schema.Message) bool {
 }
 
 // GetChatModel 获取聊天模型
-func (a *BaseAgent) GetChatModel() *model.BaseChatModel {
+func (a *BaseAgent) GetChatModel() model.ToolCallingChatModel {
 	return a.chatModel
 }
 

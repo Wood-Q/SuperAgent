@@ -39,7 +39,7 @@ type ReActAgent struct {
 	ObserveFunc func(ctx context.Context, action string) (*schema.Message, error)
 }
 
-func NewReActAgent(name string, systemPrompt string, nextPrompt string, chatModel *model.BaseChatModel) *ReActAgent {
+func NewReActAgent(name string, systemPrompt string, nextPrompt string, chatModel model.ToolCallingChatModel) *ReActAgent {
 	ra := &ReActAgent{
 		BaseAgent:    baseagent.NewBaseAgent(name, systemPrompt, nextPrompt, chatModel),
 		thoughts:     make([]string, 0),
@@ -118,7 +118,7 @@ func (ra *ReActAgent) Think(ctx context.Context) (*schema.Message, error) {
 	userInput := ctx.Value("userPrompt").(string)
 	prompt := ra.buildThinkPrompt(userInput)
 
-	resp, err := (*ra.BaseAgent.GetChatModel()).Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})
@@ -138,7 +138,7 @@ func (ra *ReActAgent) Act(ctx context.Context, thought string) (*schema.Message,
 	// 默认的行动实现
 	prompt := ra.buildActPrompt(thought)
 
-	resp, err := (*ra.BaseAgent.GetChatModel()).Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})
@@ -158,7 +158,7 @@ func (ra *ReActAgent) Observe(ctx context.Context, action string) (*schema.Messa
 	// 默认的观察实现
 	prompt := ra.buildObservePrompt(action)
 
-	resp, err := (*ra.BaseAgent.GetChatModel()).Generate(ctx, []*schema.Message{
+	resp, err := ra.BaseAgent.GetChatModel().Generate(ctx, []*schema.Message{
 		{Role: "system", Content: ra.BaseAgent.GetSystemPrompt()},
 		{Role: "user", Content: prompt},
 	})

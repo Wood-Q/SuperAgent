@@ -28,7 +28,7 @@ type Manus struct {
 }
 
 // NewManus 创建新的Manus实例
-func NewManus(config *ManusConfig, chatModel *model.BaseChatModel, tools []schema.ToolInfo) *Manus {
+func NewManus(config *ManusConfig, chatModel model.ToolCallingChatModel, tools []schema.ToolInfo) *Manus {
 	if config == nil {
 		config = DefaultManusConfig()
 	}
@@ -53,7 +53,7 @@ func NewManus(config *ManusConfig, chatModel *model.BaseChatModel, tools []schem
 }
 
 // NewManusWithDefaults 使用默认配置创建Manus
-func NewManusWithDefaults(name string, chatModel *model.BaseChatModel, tools []schema.ToolInfo) *Manus {
+func NewManusWithDefaults(name string, chatModel model.ToolCallingChatModel, tools []schema.ToolInfo) *Manus {
 	config := DefaultManusConfig()
 	config.Name = name
 	return NewManus(config, chatModel, tools)
