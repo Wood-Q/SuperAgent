@@ -1,48 +1,37 @@
 package indexer
 
 import (
+	"context"
+
 	"github.com/cloudwego/eino-ext/components/embedding/ark"
-	"github.com/cloudwego/eino-ext/components/indexer/milvus"
-	"github.com/milvus-io/milvus-sdk-go/v2/client"
-	"github.com/milvus-io/milvus-sdk-go/v2/entity"
+	"github.com/cloudwego/eino-ext/components/indexer/es8"
+	"github.com/cloudwego/eino/schema"
+	"github.com/elastic/go-elasticsearch/v8"
 )
 
-var collection = "try"
+const (
+	indexName          = "eino_example"
+	fieldContent       = "content"
+	fieldContentVector = "content_vector"
+	fieldExtraLocation = "location"
+	docExtraLocation   = "location"
+)
 
-var fields = []*entity.Field{
-	{
-		Name:     "id",
-		DataType: entity.FieldTypeVarChar,
-		TypeParams: map[string]string{
-			"max_length": "255",
+func NewIndexerConfig(client *elasticsearch.Client, emb *ark.Embedder) *es8.IndexerConfig {
+	return &es8.IndexerConfig{
+		Client:    client,
+		BatchSize: 10,
+		DocumentToFields: func(ctx context.Context, doc *schema.Document) (field2Value map[string]es8.FieldValue, err error) {
+			return map[string]es8.FieldValue{
+				fieldContent: {
+					Value:    doc.Content,
+					EmbedKey: fieldContentVector, // 对文档内容进行向量化并保存向量到 "content_vector" 字段
+				},
+				fieldExtraLocation: {
+					Value: doc.MetaData[docExtraLocation],
+				},
+			}, nil
 		},
-		PrimaryKey: true,
-	},
-	{
-		Name:     "vector", // 确保字段名匹配
-		DataType: entity.FieldTypeBinaryVector,
-		TypeParams: map[string]string{
-			"dim": "81920",
-		},
-	},
-	{
-		Name:     "content",
-		DataType: entity.FieldTypeVarChar,
-		TypeParams: map[string]string{
-			"max_length": "8192",
-		},
-	},
-	{
-		Name:     "metadata",
-		DataType: entity.FieldTypeJSON,
-	},
-}
-
-func NewIndexerConfig(cli *client.Client, emb *ark.Embedder) *milvus.IndexerConfig {
-	return &milvus.IndexerConfig{
-		Client:     *cli,
-		Embedding:  emb,
-		Collection: collection,
-		Fields:     fields,
+		Embedding: emb,
 	}
 }

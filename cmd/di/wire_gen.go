@@ -9,10 +9,10 @@ package di
 import (
 	"MoonAgent/pkg/config"
 	"MoonAgent/pkg/embedder"
+	"MoonAgent/pkg/es8"
 	"MoonAgent/pkg/indexer"
-	"MoonAgent/pkg/milvus"
 	"MoonAgent/pkg/retriever"
-	milvus2 "github.com/cloudwego/eino-ext/components/indexer/milvus"
+	es8_2 "github.com/cloudwego/eino-ext/components/indexer/es8"
 )
 
 // Injectors from wire.go:
@@ -24,7 +24,7 @@ func InitializeApplication() (*Application, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	client, err := milvus.ProvideMilvusClient(serverConfig)
+	client, err := es8.ProvideEs8Client(serverConfig)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -32,17 +32,17 @@ func InitializeApplication() (*Application, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	milvusRetriever, err := retriever.ProvideRetriever(client, arkEmbedder)
+	es8Retriever, err := retriever.ProvideRetriever(client, arkEmbedder)
 	if err != nil {
 		return nil, nil, err
 	}
 	indexerConfig := indexer.NewIndexerConfig(client, arkEmbedder)
 	context := ProvideContext()
-	milvusIndexer, err := milvus2.NewIndexer(context, indexerConfig)
+	es8Indexer, err := es8_2.NewIndexer(context, indexerConfig)
 	if err != nil {
 		return nil, nil, err
 	}
-	application := ProvideApplication(serverConfig, client, arkEmbedder, milvusRetriever, indexerConfig, milvusIndexer)
+	application := ProvideApplication(serverConfig, client, arkEmbedder, es8Retriever, indexerConfig, es8Indexer)
 	return application, func() {
 	}, nil
 }

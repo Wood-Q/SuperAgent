@@ -3,29 +3,29 @@ package di
 import (
 	"MoonAgent/pkg/config"
 	"MoonAgent/pkg/embedder"
-	userClient "MoonAgent/pkg/milvus"
+	userClient "MoonAgent/pkg/es8"
 	"context"
 
 	retriever "MoonAgent/pkg/retriever"
 
-	indexer "github.com/cloudwego/eino-ext/components/indexer/milvus"
+	indexer "github.com/cloudwego/eino-ext/components/indexer/es8"
+	"github.com/cloudwego/eino-ext/components/retriever/es8"
+	"github.com/elastic/go-elasticsearch/v8"
 
 	fields "MoonAgent/pkg/indexer"
 
 	"github.com/cloudwego/eino-ext/components/embedding/ark"
-	"github.com/cloudwego/eino-ext/components/retriever/milvus"
 	"github.com/google/wire"
-	"github.com/milvus-io/milvus-sdk-go/v2/client"
 )
 
 // Application 应用程序结构体
 type Application struct {
 	ServerConfig  *config.ServerConfig
-	MilvusClient  *client.Client
+	Es8Client     *elasticsearch.Client
 	Embedder      *ark.Embedder
 	IndexerConfig *indexer.IndexerConfig
 	Indexer       *indexer.Indexer
-	Retriever     *milvus.Retriever
+	Retriever     *es8.Retriever
 }
 
 // ProvideContext 提供上下文
@@ -36,15 +36,15 @@ func ProvideContext() context.Context {
 // ProvideApplication 提供应用程序实例
 func ProvideApplication(
 	serverConfig *config.ServerConfig,
-	milvusClient *client.Client,
+	es8Client *elasticsearch.Client,
 	embedder *ark.Embedder,
-	retriever *milvus.Retriever,
+	retriever *es8.Retriever,
 	indexerConfig *indexer.IndexerConfig,
 	indexer *indexer.Indexer,
 ) *Application {
 	return &Application{
 		ServerConfig:  serverConfig,
-		MilvusClient:  milvusClient,
+		Es8Client:     es8Client,
 		Embedder:      embedder,
 		Retriever:     retriever,
 		IndexerConfig: indexerConfig,
@@ -59,7 +59,7 @@ var ProviderSet = wire.NewSet(
 	config.NewConfig,
 
 	// 2. 提供中间依赖
-	userClient.ProvideMilvusClient,
+	userClient.ProvideEs8Client,
 	embedder.ProvideEmbedder,
 
 	// 3. 提供配置

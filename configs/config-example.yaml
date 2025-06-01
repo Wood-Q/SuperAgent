@@ -12,7 +12,11 @@ llm:
 # 向量数据库配置
 document:
   # 向量数据库地址
-  addr: "127.0.0.1:19530"
+  addr: "http://127.0.0.1:9200"
+  # es8用户名
+  username: ""
+  # es8密码
+  password: ""
   # 向量模型api_key
   api_key: ""
   # 向量模型名称
