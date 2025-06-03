@@ -10,9 +10,8 @@ import (
 // ProvideEs8Client 提供 Es8 客户端
 func ProvideEs8Client(cfg *config.ServerConfig) (*elasticsearch.Client, error) {
 	client, err := elasticsearch.NewClient(elasticsearch.Config{
-		Addresses: []string{cfg.DocumentConfig.Addr},
-		Username:  cfg.DocumentConfig.UserName,
-		Password:  cfg.DocumentConfig.Password,
+		CloudID: cfg.DocumentConfig.CLOUD_ID,
+		APIKey:  cfg.DocumentConfig.ES_API_KEY,
 	})
 	if err != nil {
 		zap.S().Errorw("Failed to create es8 client", "error", err.Error())

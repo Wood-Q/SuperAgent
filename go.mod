@@ -14,7 +14,7 @@ require (
 	github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/hertz v0.10.0
-	github.com/elastic/go-elasticsearch/v8 v8.16.0
+	github.com/elastic/go-elasticsearch/v8 v8.18.0
 	github.com/google/wire v0.6.0
 	github.com/hertz-contrib/cors v0.1.0
 	github.com/hertz-contrib/sse v0.1.0

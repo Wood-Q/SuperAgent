@@ -3,7 +3,8 @@ package indexer
 import (
 	"context"
 
-	"github.com/cloudwego/eino-ext/components/indexer/es8"
+	"MoonAgent/pkg/indexer/es8"
+
 	"go.uber.org/zap"
 )
 

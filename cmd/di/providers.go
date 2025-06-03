@@ -8,7 +8,7 @@ import (
 
 	retriever "MoonAgent/pkg/retriever"
 
-	indexer "github.com/cloudwego/eino-ext/components/indexer/es8"
+	indexer "MoonAgent/pkg/indexer/es8"
 	"github.com/cloudwego/eino-ext/components/retriever/es8"
 	"github.com/elastic/go-elasticsearch/v8"
 

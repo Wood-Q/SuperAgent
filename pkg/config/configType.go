@@ -15,11 +15,10 @@ type LLMConfig struct {
 }
 
 type DocumentConfig struct {
-	Addr     string `mapstructure:"addr" yaml:"addr"`
-	UserName string `mapstructure:"username" yaml:"username"`
-	Password string `mapstructure:"password" yaml:"password"`
-	API_KEY  string `mapstructure:"api_key" yaml:"api_key"`
-	Model    string `mapstructure:"model" yaml:"model"`
+	CLOUD_ID   string `mapstructure:"cloud_id" yaml:"cloud_id"`
+	ES_API_KEY string `mapstructure:"es_api_key" yaml:"es_api_key"`
+	API_KEY    string `mapstructure:"api_key" yaml:"api_key"`
+	Model      string `mapstructure:"model" yaml:"model"`
 }
 
 type BrowserConfig struct {

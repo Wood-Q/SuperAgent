@@ -3,35 +3,55 @@ package indexer
 import (
 	"context"
 
+	"MoonAgent/pkg/indexer/es8"
+
 	"github.com/cloudwego/eino-ext/components/embedding/ark"
-	"github.com/cloudwego/eino-ext/components/indexer/es8"
 	"github.com/cloudwego/eino/schema"
 	"github.com/elastic/go-elasticsearch/v8"
+	"github.com/elastic/go-elasticsearch/v8/typedapi/types"
+	"github.com/elastic/go-elasticsearch/v8/typedapi/types/enums/densevectorsimilarity"
 )
 
 const (
-	indexName          = "eino_example"
+	indexName          = "my_rag"
 	fieldContent       = "content"
 	fieldContentVector = "content_vector"
-	fieldExtraLocation = "location"
-	docExtraLocation   = "location"
 )
 
 func NewIndexerConfig(client *elasticsearch.Client, emb *ark.Embedder) *es8.IndexerConfig {
+	dims := 2560
+	similarity := densevectorsimilarity.Cosine
+	index := true
+	//创建本地mapping
+	mapping := &types.TypeMapping{
+		Properties: map[string]types.Property{
+			"id":      types.NewTextProperty(),
+			"content": types.NewTextProperty(),
+			"content_dense_vector": &types.DenseVectorProperty{
+				Dims:       &dims,
+				Index:      &index,
+				Similarity: &similarity,
+			},
+		},
+	}
 	return &es8.IndexerConfig{
-		Client:    client,
-		BatchSize: 10,
+		Client:       client,
+		Index:        indexName,
+		BatchSize:    5,
+		LocalMapping: mapping,
+		Embedding:    emb,
 		DocumentToFields: func(ctx context.Context, doc *schema.Document) (field2Value map[string]es8.FieldValue, err error) {
 			return map[string]es8.FieldValue{
-				fieldContent: {
-					Value:    doc.Content,
-					EmbedKey: fieldContentVector, // 对文档内容进行向量化并保存向量到 "content_vector" 字段
+				"id": {
+					Value: doc.ID,
 				},
-				fieldExtraLocation: {
-					Value: doc.MetaData[docExtraLocation],
+				"content": {
+					Value:    doc.Content,
+					EmbedKey: "content_dense_vector",
 				},
 			}, nil
 		},
-		Embedding: emb,
+		ValidationMode:    es8.ValidationModeWarn,
+		EnableSchemaCheck: true,
 	}
 }
