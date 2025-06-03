@@ -10,14 +10,14 @@ import (
 	"github.com/cloudwego/eino/schema"
 )
 
-func ma() {
+func main() {
 	ctx := context.Background()
 	app, clear, err := di.InitializeApplication()
 	if err != nil {
 		panic(err)
 	}
 	defer clear()
-	content, err := os.ReadFile("../assets/documents/muelsyse_docs.txt")
+	content, err := os.ReadFile("../../assets/documents/muelsyse copy.txt")
 	if err != nil {
 		panic(err)
 	}
