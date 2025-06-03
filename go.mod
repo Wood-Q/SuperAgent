@@ -8,9 +8,7 @@ require (
 	github.com/cloudwego/eino v0.3.33
 	github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261
-	github.com/cloudwego/eino-ext/components/indexer/es8 v0.0.0-20250527025003-c8588b6dc7a9
 	github.com/cloudwego/eino-ext/components/model/ark v0.1.8
-	github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250527025003-c8588b6dc7a9
 	github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/tool/googlesearch v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/hertz v0.10.0
@@ -38,6 +36,7 @@ require (
 	github.com/chromedp/chromedp v0.13.3 // indirect
 	github.com/chromedp/sysutil v1.1.0 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
+	github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250530094010-bd1c4fc20bbe // indirect
 	github.com/cloudwego/eino-ext/components/tool/duckduckgo v0.0.0-20250403035559-e5332ba7144a // indirect
 	github.com/cloudwego/gopkg v0.1.4 // indirect
 	github.com/cloudwego/netpoll v0.7.0 // indirect

@@ -124,12 +124,12 @@ github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic 
 github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261/go.mod h1:135pUb39QNsnr1B4/edT6QP/J8gZM7s+f7fCLHmk2AQ=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261 h1:YDr7CU6zuMQmoIIuw9Utqe63I1yE7eIZSY3tnKlZIIU=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261/go.mod h1:pLtH5BZKgb7/bB8+P3W5/f1d46gTl9K77+08j88Gb4k=
-github.com/cloudwego/eino-ext/components/indexer/es8 v0.0.0-20250527025003-c8588b6dc7a9 h1:T7rwBAoqL9Bq01Phoy3OpW2b4uDv35OwBAOG1JDTyCc=
-github.com/cloudwego/eino-ext/components/indexer/es8 v0.0.0-20250527025003-c8588b6dc7a9/go.mod h1:gcTplPr8fzw00XS+twNkrQXORfRXL7UYFbAe1Z8v/Ck=
 github.com/cloudwego/eino-ext/components/model/ark v0.1.8 h1:QU0M01WNTVf/63cUjD6S/D1lB+ggvcVH4ntZ+XKg5Lo=
 github.com/cloudwego/eino-ext/components/model/ark v0.1.8/go.mod h1:V3ZJbGMGXVYc1xgkBb3aEIGaS8BvPuVi2lub34vBO7k=
 github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250527025003-c8588b6dc7a9 h1:TVb4aHgm7Xlk8UjF9nh/P8Hp77/duQzIRSoYVHS6M/g=
 github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250527025003-c8588b6dc7a9/go.mod h1:GhhtNox5sRTgU9yYfmp0MOyF0SCvO7c21VqIzg78boE=
+github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250530094010-bd1c4fc20bbe h1:GTbho8YD9xJ4punRxdU8tfIuVVdBG/eBA3N7vdcNVMI=
+github.com/cloudwego/eino-ext/components/retriever/es8 v0.0.0-20250530094010-bd1c4fc20bbe/go.mod h1:GhhtNox5sRTgU9yYfmp0MOyF0SCvO7c21VqIzg78boE=
 github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261 h1:zIi1busXSBq3uqUTiuezj7w3IljyUdNTZUkPj2tp5w8=
 github.com/cloudwego/eino-ext/components/tool/browseruse v0.0.0-20250514085234-473e80da5261/go.mod h1:XWNmSW/4LSQCsrHJ7GP7g4tD/JCBoPp9lBEW+raghWo=
 github.com/cloudwego/eino-ext/components/tool/duckduckgo v0.0.0-20250403035559-e5332ba7144a h1:lqTor2FV9Zzd20zj1WmGMMYnDhxr/pg3lv8cjoYnp/k=

@@ -11,8 +11,8 @@ import (
 	"MoonAgent/pkg/embedder"
 	"MoonAgent/pkg/es8"
 	"MoonAgent/pkg/indexer"
+	es8_2 "MoonAgent/pkg/indexer/es8"
 	"MoonAgent/pkg/retriever"
-	es8_2 "github.com/cloudwego/eino-ext/components/indexer/es8"
 )
 
 // Injectors from wire.go:
