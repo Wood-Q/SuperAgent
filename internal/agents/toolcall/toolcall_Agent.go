@@ -1,7 +1,7 @@
 package toolcallagent
 
 import (
-	reactagent "MoonAgent/internal/agents/ReActAgent"
+	reactagent "MoonAgent/internal/agents/reAct"
 	"MoonAgent/internal/agents/orchestration"
 	"encoding/json"
 	"errors"

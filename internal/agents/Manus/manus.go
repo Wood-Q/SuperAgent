@@ -1,7 +1,7 @@
 package manus
 
 import (
-	toolcallagent "MoonAgent/internal/agents/ToolCallAgent"
+	toolcallagent "MoonAgent/internal/agents/toolcall"
 	"MoonAgent/internal/agents/orchestration"
 	"context"
 	"fmt"

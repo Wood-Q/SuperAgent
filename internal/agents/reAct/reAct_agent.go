@@ -1,7 +1,7 @@
 package reactagent
 
 import (
-	baseagent "MoonAgent/internal/agents/baseAgent"
+	baseagent "MoonAgent/internal/agents/base"
 	"MoonAgent/internal/agents/orchestration"
 	"errors"
 	"strings"
