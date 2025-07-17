@@ -13,7 +13,7 @@ import (
 func ProvideRetriever(milvusCli *client.Client, embedder *ark.Embedder) (*milvus.Retriever, error) {
 	retriever, err := milvus.NewRetriever(context.Background(), &milvus.RetrieverConfig{
 		Client:      *milvusCli,
-		Collection:  "try",
+		Collection:  "muelsyse",
 		Partition:   nil,
 		VectorField: "",
 		OutputFields: []string{

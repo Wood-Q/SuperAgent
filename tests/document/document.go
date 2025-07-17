@@ -17,7 +17,7 @@ func main() {
 		panic(err)
 	}
 	defer clear()
-	content, err := os.ReadFile("../../assets/documents/muelsyse copy.txt")
+	content, err := os.ReadFile("../../assets/documents/muelsyse.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -31,10 +31,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_, err = app.Indexer.Store(ctx, docs)
-	if err != nil {
-		panic(err)
-	}
+	batchsize := 10
+	for i := 0; i < len(docs); i += batchsize {
+		end := i + batchsize
+		if end > len(docs) {
+			end = len(docs)
+		}
+		batch := docs[i:end]
+		_, err = app.Indexer.Store(ctx, batch)
+		if err != nil {
+			panic(err)
+		}
 	fmt.Println("Document stored successfully")
-
+	}
 }

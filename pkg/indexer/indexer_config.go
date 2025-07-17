@@ -7,7 +7,7 @@ import (
 	"github.com/milvus-io/milvus-sdk-go/v2/entity"
 )
 
-var collection = "try"
+var collection = "muelsyse"
 
 var fields = []*entity.Field{
 	{
@@ -22,7 +22,7 @@ var fields = []*entity.Field{
 		Name:     "vector", // 确保字段名匹配
 		DataType: entity.FieldTypeBinaryVector,
 		TypeParams: map[string]string{
-			"dim": "81920",
+			"dim": "65536",
 		},
 	},
 	{

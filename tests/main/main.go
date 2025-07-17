@@ -13,22 +13,27 @@ func main() {
 		panic(err)
 	}
 	defer clear()
-	userInput := "你好，可以告诉我缪尔赛思的源石技艺适应性是什么吗，并且跳转到prts缪尔赛思相关页面"
+	userInput := "你好，可以告诉我缪尔赛思的源石技艺适应性是什么吗"
 	ctx := context.WithValue(context.Background(), "user_input", userInput)
 
 	runnable, err := pipeline.BuildAssitant(ctx, app)
 	if err != nil {
 		panic(err)
 	}
-	out, err := runnable.Stream(ctx, userInput)
+	out, err := runnable.Invoke(ctx, userInput)
 	if err != nil {
 		panic(err)
 	}
-	for {
-		chunk, err := out.Recv()
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(chunk)
-	}
+	fmt.Println(out)
+	// out, err := runnable.Stream(ctx, userInput)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// for {
+	// 	chunk, err := out.Recv()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	fmt.Println(chunk)
+	// }
 }

@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/cloudwego/eino v0.3.33
-	github.com/cloudwego/eino-ext/components/document/transformer/splitter/semantic v0.0.0-20250514085234-473e80da5261
+	github.com/cloudwego/eino-ext/components/document/transformer/splitter/recursive v0.0.0-20250716114210-6b285e194382
 	github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/indexer/milvus v0.0.0-20250514085234-473e80da5261
 	github.com/cloudwego/eino-ext/components/model/ark v0.1.8
@@ -106,13 +106,13 @@ require (
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/arch v0.11.0 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
+	golang.org/x/crypto v0.39.0 // indirect
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/oauth2 v0.25.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.15.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/text v0.26.0 // indirect
 	google.golang.org/api v0.215.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241223144023-3abc09e42ca8 // indirect
 	google.golang.org/grpc v1.67.3 // indirect
