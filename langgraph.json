@@ -1,0 +1,14 @@
+{
+  "dockerfile_lines": [],
+  "graphs": { "researcher": "./src/agents/researcher.py:researcher" },
+  "python_version": "3.11",
+  "env": "./.env",
+  "dependencies": ["."],
+  "http": {
+    "cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["*"],
+      "allow_headers": ["*"]
+    }
+  }
+}

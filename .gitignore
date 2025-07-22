@@ -1,18 +1,1 @@
-.AI.session.sql
-.idea
-.vscode
-.DS_Store
-volumes
-config.yaml
-
-# 资源目录忽略规则
-assets/data/cache/*
-assets/data/temp/*
-!assets/data/cache/.gitkeep
-!assets/data/temp/.gitkeep
-
-# 模型文件（大文件）
-assets/models/weights/*
-assets/models/embeddings/*
-!assets/models/weights/.gitkeep
-!assets/models/embeddings/.gitkeep
+.venv

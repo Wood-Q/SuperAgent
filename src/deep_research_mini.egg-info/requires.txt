@@ -1,0 +1,9 @@
+firecrawl-py>=2.16.1
+jinja2>=3.1.6
+langchain>=0.3.26
+langchain-openai>=0.3.28
+langchain-tavily>=0.2.10
+langgraph>=0.5.3
+langgraph-supervisor>=0.0.27
+prompts>=0.0.1
+socksio>=1.0.0

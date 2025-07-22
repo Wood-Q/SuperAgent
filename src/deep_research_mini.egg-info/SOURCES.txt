@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/agents/__init__.py
+src/agents/agent_runner.py
+src/agents/researcher.py
+src/deep_research_mini.egg-info/PKG-INFO
+src/deep_research_mini.egg-info/SOURCES.txt
+src/deep_research_mini.egg-info/dependency_links.txt
+src/deep_research_mini.egg-info/requires.txt
+src/deep_research_mini.egg-info/top_level.txt
+src/models/chat_model.py
+src/prompts/template.py
+src/tools/web_crawl.py
+src/tools/web_search.py
